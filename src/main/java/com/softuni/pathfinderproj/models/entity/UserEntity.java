@@ -15,11 +15,11 @@ public class UserEntity extends BaseEntity{
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false,unique = true)
+    @Column(unique = true)
     private String email;
 
     @ManyToMany
-    private List<RoleEntity> role;
+    private List<RoleEntity> roles;
 
     @Enumerated(EnumType.STRING)
     private LevelEnum level;
@@ -60,11 +60,11 @@ public class UserEntity extends BaseEntity{
     }
 
     public List<RoleEntity> getRole() {
-        return role;
+        return roles;
     }
 
-    public UserEntity setRole(List<RoleEntity> role) {
-        this.role = role;
+    public UserEntity setRole(List<RoleEntity> roles) {
+        this.roles = roles;
         return this;
     }
 
