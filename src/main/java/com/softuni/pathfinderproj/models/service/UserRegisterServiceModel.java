@@ -1,43 +1,34 @@
-package com.softuni.pathfinderproj.models.entity;
+package com.softuni.pathfinderproj.models.service;
 
+import com.softuni.pathfinderproj.models.entity.RoleEntity;
 import com.softuni.pathfinderproj.models.entity.enums.LevelEnum;
 
 
-import javax.persistence.*;
 import java.util.List;
 
-@Entity
-@Table(name = "users")
-public class UserEntity extends BaseEntity{
+public class UserRegisterServiceModel {
 
-    @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false)
     private String password;
 
-    @Column(unique = true)
     private String email;
 
-    @ManyToMany
     private List<RoleEntity> roles;
 
-    @Enumerated(EnumType.STRING)
     private LevelEnum level;
 
-    @Column
     private Integer age;
 
-    @Column(nullable = false, name = "full_name")
     private String fullName;
 
-    public UserEntity(){}
+    public UserRegisterServiceModel(){}
 
     public String getUsername() {
         return username;
     }
 
-    public UserEntity setUsername(String username) {
+    public UserRegisterServiceModel setUsername(String username) {
         this.username = username;
         return this;
     }
@@ -46,7 +37,7 @@ public class UserEntity extends BaseEntity{
         return password;
     }
 
-    public UserEntity setPassword(String password) {
+    public UserRegisterServiceModel setPassword(String password) {
         this.password = password;
         return this;
     }
@@ -55,32 +46,34 @@ public class UserEntity extends BaseEntity{
         return email;
     }
 
-    public UserEntity setEmail(String email) {
+    public UserRegisterServiceModel setEmail(String email) {
         this.email = email;
         return this;
     }
 
-    public List<RoleEntity> getRole() {
+    public List<RoleEntity> getRoles() {
         return roles;
     }
 
-    public void setRole(List<RoleEntity> roles) {
+    public UserRegisterServiceModel setRoles(List<RoleEntity> roles) {
         this.roles = roles;
+        return this;
     }
 
     public LevelEnum getLevel() {
         return level;
     }
 
-    public void setLevel(LevelEnum level) {
+    public UserRegisterServiceModel setLevel(LevelEnum level) {
         this.level = level;
+        return this;
     }
 
     public Integer getAge() {
         return age;
     }
 
-    public UserEntity setAge(Integer age) {
+    public UserRegisterServiceModel setAge(Integer age) {
         this.age = age;
         return this;
     }
@@ -89,7 +82,7 @@ public class UserEntity extends BaseEntity{
         return fullName;
     }
 
-    public UserEntity setFullName(String fullName) {
+    public UserRegisterServiceModel setFullName(String fullName) {
         this.fullName = fullName;
         return this;
     }
