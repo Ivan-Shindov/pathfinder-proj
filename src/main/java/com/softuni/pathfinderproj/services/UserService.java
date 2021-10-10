@@ -1,7 +1,9 @@
 package com.softuni.pathfinderproj.services;
 
-import com.softuni.pathfinderproj.models.service.UserRegisterServiceModel;
+import com.softuni.pathfinderproj.models.service.UserServiceModel;
 
 public interface UserService {
-    void registerAndLogin(UserRegisterServiceModel userRegisterServiceModel);
+    void registerAndLogin(UserServiceModel userRegisterServiceModel);
+
+    UserServiceModel findByUsernameAndPassword(String username, String password);
 }

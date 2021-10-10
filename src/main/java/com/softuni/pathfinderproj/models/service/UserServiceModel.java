@@ -6,7 +6,9 @@ import com.softuni.pathfinderproj.models.entity.enums.LevelEnum;
 
 import java.util.List;
 
-public class UserRegisterServiceModel {
+public class UserServiceModel {
+
+    private Long id;
 
     private String username;
 
@@ -22,13 +24,13 @@ public class UserRegisterServiceModel {
 
     private String fullName;
 
-    public UserRegisterServiceModel(){}
+    public UserServiceModel(){}
 
     public String getUsername() {
         return username;
     }
 
-    public UserRegisterServiceModel setUsername(String username) {
+    public UserServiceModel setUsername(String username) {
         this.username = username;
         return this;
     }
@@ -37,7 +39,7 @@ public class UserRegisterServiceModel {
         return password;
     }
 
-    public UserRegisterServiceModel setPassword(String password) {
+    public UserServiceModel setPassword(String password) {
         this.password = password;
         return this;
     }
@@ -46,7 +48,7 @@ public class UserRegisterServiceModel {
         return email;
     }
 
-    public UserRegisterServiceModel setEmail(String email) {
+    public UserServiceModel setEmail(String email) {
         this.email = email;
         return this;
     }
@@ -55,7 +57,7 @@ public class UserRegisterServiceModel {
         return roles;
     }
 
-    public UserRegisterServiceModel setRoles(List<RoleEntity> roles) {
+    public UserServiceModel setRoles(List<RoleEntity> roles) {
         this.roles = roles;
         return this;
     }
@@ -64,7 +66,7 @@ public class UserRegisterServiceModel {
         return level;
     }
 
-    public UserRegisterServiceModel setLevel(LevelEnum level) {
+    public UserServiceModel setLevel(LevelEnum level) {
         this.level = level;
         return this;
     }
@@ -73,7 +75,7 @@ public class UserRegisterServiceModel {
         return age;
     }
 
-    public UserRegisterServiceModel setAge(Integer age) {
+    public UserServiceModel setAge(Integer age) {
         this.age = age;
         return this;
     }
@@ -82,8 +84,17 @@ public class UserRegisterServiceModel {
         return fullName;
     }
 
-    public UserRegisterServiceModel setFullName(String fullName) {
+    public UserServiceModel setFullName(String fullName) {
         this.fullName = fullName;
+        return this;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public UserServiceModel setId(Long id) {
+        this.id = id;
         return this;
     }
 }

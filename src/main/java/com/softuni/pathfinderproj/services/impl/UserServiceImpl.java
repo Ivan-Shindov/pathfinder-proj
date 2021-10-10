@@ -1,16 +1,12 @@
 package com.softuni.pathfinderproj.services.impl;
 
-import com.softuni.pathfinderproj.models.entity.RoleEntity;
 import com.softuni.pathfinderproj.models.entity.UserEntity;
 import com.softuni.pathfinderproj.models.entity.enums.LevelEnum;
-import com.softuni.pathfinderproj.models.entity.enums.RoleEnums;
-import com.softuni.pathfinderproj.models.service.UserRegisterServiceModel;
+import com.softuni.pathfinderproj.models.service.UserServiceModel;
 import com.softuni.pathfinderproj.repositories.UserRepository;
 import com.softuni.pathfinderproj.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -24,7 +20,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void registerAndLogin(UserRegisterServiceModel userRegisterServiceModel) {
+    public void registerAndLogin(UserServiceModel userRegisterServiceModel) {
+
+        // TODO register and login
 
            if (!userRepository.existsByUsername(userRegisterServiceModel.getUsername())) {
                 UserEntity userEntity = modelMapper.map(userRegisterServiceModel, UserEntity.class);
@@ -34,5 +32,13 @@ public class UserServiceImpl implements UserService {
            }
 
 
+    }
+
+    @Override
+    public UserServiceModel findByUsernameAndPassword(String username, String password) {
+
+        return this.userRepository.findByUsernameAndPassword(username,password)
+                .map(user -> modelMapper.map(user, UserServiceModel.class))
+                .orElse(null);
     }
 }
