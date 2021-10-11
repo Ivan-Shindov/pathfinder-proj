@@ -30,4 +30,10 @@ public class CurrentUser {
         this.username = username;
         return this;
     }
+
+    public void clearFields() {
+        this
+                .setId(null)
+                .setUsername(null);
+    }
 }

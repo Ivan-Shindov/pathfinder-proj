@@ -18,17 +18,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
     private final ModelMapper modelMapper;
-    private final CurrentUser currentUser;
 
-    public UserController(UserService userService, ModelMapper modelMapper, CurrentUser currentUser) {
+    public UserController(UserService userService, ModelMapper modelMapper) {
         this.userService = userService;
         this.modelMapper = modelMapper;
-        this.currentUser = currentUser;
     }
 
     @ModelAttribute
@@ -41,57 +38,52 @@ public class UserController {
         return new UserLoginBindingModel();
     }
 
-    @GetMapping("/login")
+    @GetMapping("/users/login")
     public String login(Model model) {
-        model.addAttribute("isNotExist",true);
+        model.addAttribute("isNotExist", true);
 
         return "login";
     }
 
-    @PostMapping("/login")
+    @PostMapping("/users/login")
     public String postLogin(@Valid UserLoginBindingModel userLoginBindingModel
-            , BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+                                         , BindingResult bindingResult
+                                         , RedirectAttributes redirectAttributes) {
 
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             redirectAttributes
-                    .addFlashAttribute("userLoginBindingModel",userLoginBindingModel)
+                    .addFlashAttribute("userLoginBindingModel", userLoginBindingModel)
                     .addFlashAttribute("org.springframework.validation.BindingResult.userLoginBindingModel", bindingResult);
 
             return "redirect:login";
         }
 
-        UserServiceModel userService = this.userService
-                .findByUsernameAndPassword(userLoginBindingModel.getUsername(),userLoginBindingModel.getPassword());
+        UserServiceModel userServiceModel = this.userService
+                .findByUsernameAndPassword(userLoginBindingModel.getUsername(), userLoginBindingModel.getPassword());
 
-        if (userService == null) {
+        if (userServiceModel == null) {
             redirectAttributes
-                    .addFlashAttribute("isNotExist",true)
-                    .addFlashAttribute("userLoginBindingModel",userLoginBindingModel)
+                    .addFlashAttribute("isNotExist", true)
+                    .addFlashAttribute("userLoginBindingModel", userLoginBindingModel)
                     .addFlashAttribute("org.springframework.validation.BindingResult.userLoginBindingModel", bindingResult);
 
             return "redirect:login";
         }
 
-        loginUser(userService.getId(),userService.getUsername());
+        this.userService.loginUser(userServiceModel.getId()
+                , userServiceModel.getUsername());
 
-        return "redirect:index";
+        return "redirect:/";
     }
 
-    private void loginUser(Long id, String username) {
-        currentUser
-                .setId(id)
-                .setUsername(username);
 
-        // TODO move it in service layer
-    }
-
-    @GetMapping("/register")
+    @GetMapping("/users/register")
     public String register() {
 
         return "register";
     }
 
-    @PostMapping("/register")
+    @PostMapping("/users/register")
     public String postRegister(@Valid UserRegisterBindingModel userRegisterBindingModel,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
@@ -110,7 +102,13 @@ public class UserController {
         userService.registerAndLogin(modelMapper
                 .map(userRegisterBindingModel, UserServiceModel.class));
 
-        return "redirect:/users/login";
+        return "redirect:/";
     }
 
+
+    @GetMapping("users/logout")
+    public String logout() {
+        userService.logout();
+        return "redirect:/";
+    }
 }
