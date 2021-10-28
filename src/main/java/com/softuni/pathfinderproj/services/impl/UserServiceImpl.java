@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void registerAndLogin(UserServiceModel userRegisterServiceModel) {
 
-           if (!userRepository.existsByUsername(userRegisterServiceModel.getUsername())) {
+           if (!isUsernameExists(userRegisterServiceModel.getUsername())) {
                 UserEntity userEntity = modelMapper.map(userRegisterServiceModel, UserEntity.class);
                 userEntity.setLevel(LevelEnum.BEGINNER);
 
@@ -41,6 +41,11 @@ public class UserServiceImpl implements UserService {
         return this.userRepository.findByUsernameAndPassword(username,password)
                 .map(user -> modelMapper.map(user, UserServiceModel.class))
                 .orElse(null);
+    }
+
+    @Override
+    public boolean isUsernameExists(String username) {
+        return userRepository.existsByUsername(username);
     }
 
     public void loginUser(Long id, String username) {
@@ -59,6 +64,23 @@ public class UserServiceImpl implements UserService {
 
         return userRepository.findById(id)
                 .map(user -> modelMapper.map(user, UserServiceModel.class))
+                .orElse(null);
+    }
+
+    @Override
+    public boolean isCurrentUserExist() {
+
+       if (currentUser.getId() == null) {
+           return false;
+       }
+
+       return true;
+    }
+
+    @Override
+    public UserEntity findCurrentUser() {
+
+        return userRepository.findById(currentUser.getId())
                 .orElse(null);
     }
 }

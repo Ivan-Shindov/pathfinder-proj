@@ -1,47 +1,51 @@
-package com.softuni.pathfinderproj.models.entity;
+package com.softuni.pathfinderproj.models.service;
 
+import com.softuni.pathfinderproj.models.entity.CategoryEntity;
+import com.softuni.pathfinderproj.models.entity.PictureEntity;
+import com.softuni.pathfinderproj.models.entity.UserEntity;
+import com.softuni.pathfinderproj.models.entity.enums.CategoryEnum;
 import com.softuni.pathfinderproj.models.entity.enums.LevelEnum;
 
 import javax.persistence.*;
 import java.util.Set;
 
-@Entity
-@Table(name = "routes")
-public class RouteEntity extends BaseEntity{
+public class RouteServiceModel {
 
-    @Column(columnDefinition = "LONGTEXT",name = "gpx_coordinates")
+    private Long id;
     private String gpxCoordinates;
 
-    @Enumerated(EnumType.STRING)
     private LevelEnum level;
 
-    @Column(nullable = false,unique = true)
     private String name;
 
-    @ManyToOne
     private UserEntity author;
 
-    @Column(name = "video_url")
     private String videoUrl;
 
-    @Column(columnDefinition = "TEXT")
     private String description;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<CategoryEntity> categories;
+    private Set<CategoryEnum> categories;
 
-    @OneToMany(mappedBy = "route",fetch = FetchType.EAGER)
     private Set<PictureEntity> pictures;
 
-    public RouteEntity(){
+    public RouteServiceModel() {
 
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public RouteServiceModel setId(Long id) {
+        this.id = id;
+        return this;
     }
 
     public String getGpxCoordinates() {
         return gpxCoordinates;
     }
 
-    public RouteEntity setGpxCoordinates(String gpxCoordinates) {
+    public RouteServiceModel setGpxCoordinates(String gpxCoordinates) {
         this.gpxCoordinates = gpxCoordinates;
         return this;
     }
@@ -50,7 +54,7 @@ public class RouteEntity extends BaseEntity{
         return level;
     }
 
-    public RouteEntity setLevel(LevelEnum level) {
+    public RouteServiceModel setLevel(LevelEnum level) {
         this.level = level;
         return this;
     }
@@ -59,7 +63,7 @@ public class RouteEntity extends BaseEntity{
         return name;
     }
 
-    public RouteEntity setName(String name) {
+    public RouteServiceModel setName(String name) {
         this.name = name;
         return this;
     }
@@ -68,7 +72,7 @@ public class RouteEntity extends BaseEntity{
         return author;
     }
 
-    public RouteEntity setAuthor(UserEntity author) {
+    public RouteServiceModel setAuthor(UserEntity author) {
         this.author = author;
         return this;
     }
@@ -77,7 +81,7 @@ public class RouteEntity extends BaseEntity{
         return videoUrl;
     }
 
-    public RouteEntity setVideoUrl(String videoUrl) {
+    public RouteServiceModel setVideoUrl(String videoUrl) {
         this.videoUrl = videoUrl;
         return this;
     }
@@ -86,16 +90,16 @@ public class RouteEntity extends BaseEntity{
         return description;
     }
 
-    public RouteEntity setDescription(String description) {
+    public RouteServiceModel setDescription(String description) {
         this.description = description;
         return this;
     }
 
-    public Set<CategoryEntity> getCategories() {
+    public Set<CategoryEnum> getCategories() {
         return categories;
     }
 
-    public RouteEntity setCategories(Set<CategoryEntity> categories) {
+    public RouteServiceModel setCategories(Set<CategoryEnum> categories) {
         this.categories = categories;
         return this;
     }
@@ -104,7 +108,7 @@ public class RouteEntity extends BaseEntity{
         return pictures;
     }
 
-    public RouteEntity setPictures(Set<PictureEntity> pictures) {
+    public RouteServiceModel setPictures(Set<PictureEntity> pictures) {
         this.pictures = pictures;
         return this;
     }

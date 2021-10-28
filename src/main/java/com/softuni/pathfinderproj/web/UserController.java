@@ -5,7 +5,6 @@ import com.softuni.pathfinderproj.models.binding.UserRegisterBindingModel;
 import com.softuni.pathfinderproj.models.service.UserServiceModel;
 import com.softuni.pathfinderproj.models.view.UserViewModel;
 import com.softuni.pathfinderproj.services.UserService;
-import com.softuni.pathfinderproj.util.CurrentUser;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,15 +37,17 @@ public class UserController {
 
     @GetMapping("/users/login")
     public String login(Model model) {
-        model.addAttribute("isNotExist", true);
+        if (!model.containsAttribute("isExist")) {
+            model.addAttribute("isExist", true);
+        }
 
         return "login";
     }
 
     @PostMapping("/users/login")
     public String postLogin(@Valid UserLoginBindingModel userLoginBindingModel
-                                         , BindingResult bindingResult
-                                         , RedirectAttributes redirectAttributes) {
+            , BindingResult bindingResult
+            , RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes
@@ -61,7 +62,7 @@ public class UserController {
 
         if (userServiceModel == null) {
             redirectAttributes
-                    .addFlashAttribute("isNotExist", true)
+                    .addFlashAttribute("isExist", false)
                     .addFlashAttribute("userLoginBindingModel", userLoginBindingModel)
                     .addFlashAttribute("org.springframework.validation.BindingResult.userLoginBindingModel", bindingResult);
 
@@ -97,8 +98,18 @@ public class UserController {
             return "redirect:register";
         }
 
-        userService.registerAndLogin(modelMapper
-                .map(userRegisterBindingModel, UserServiceModel.class));
+
+        if (userService.isUsernameExists(userRegisterBindingModel.getUsername())) {
+            redirectAttributes
+                    .addFlashAttribute("usernameExist", true)
+                    .addFlashAttribute("userRegisterBindingModel", userRegisterBindingModel);
+
+            return "redirect:/users/register";
+        }
+
+        userService
+                .registerAndLogin(modelMapper
+                        .map(userRegisterBindingModel, UserServiceModel.class));
 
         return "redirect:/";
     }
@@ -117,7 +128,6 @@ public class UserController {
 
         UserViewModel viewModel = modelMapper.map(userService.findById(id), UserViewModel.class);
         model.addAttribute("user", viewModel);
-
 
 
         return "profile";
