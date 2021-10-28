@@ -11,4 +11,6 @@ public interface RouteService {
     RouteServiceModel addNewRoute(RouteServiceModel routeAddBindingModel);
 
     boolean isThereAnotherRouteWithName(String name);
+
+    RouteViewModel findRouteById(Long id);
 }

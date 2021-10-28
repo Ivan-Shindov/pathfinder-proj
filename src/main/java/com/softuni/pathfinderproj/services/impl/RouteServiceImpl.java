@@ -38,17 +38,22 @@ public class RouteServiceImpl implements RouteService {
                 .stream()
                 .map(routeEntity -> {
                     RouteViewModel routeViewModel = modelMapper.map(routeEntity, RouteViewModel.class);
-                    routeViewModel.setPicture(
+                    routeViewModel.setPictures(
                             routeEntity.getPictures()
                                     .stream()
                                     .map(PictureEntity::getUrl)
-                                    .findFirst()
-                                    .orElse("/images/pic3.jpg"));
+                                    .collect(Collectors.toList()));
+
+                            if (routeViewModel.getPictures().isEmpty()) {
+                                routeViewModel.setPictures(List.of("/images/pic3.jpg"));
+                            }
+
                     return routeViewModel;
                 })
                 .collect(Collectors.toList());
 
     }
+//    "/images/pic3.jpg"
 
     @Override
     public RouteServiceModel addNewRoute(RouteServiceModel routeAddServiceModel) {
@@ -74,6 +79,20 @@ public class RouteServiceImpl implements RouteService {
         RouteEntity routeEntity = routeReposiotry.findByName(name).orElse(null);
 
         return routeEntity == null ? false : true;
+    }
+
+    @Override
+    public RouteViewModel findRouteById(Long id) {
+        RouteEntity routeEntity = routeReposiotry.findById(id).orElse(null);
+        RouteViewModel routeViewModel = modelMapper.map(routeEntity, RouteViewModel.class);
+
+        routeViewModel.setAuthorName(routeEntity.getAuthor().getUsername());
+        routeViewModel.setPictures(routeEntity.getPictures()
+                .stream()
+                .map(PictureEntity::getUrl)
+                .collect(Collectors.toList()));
+
+        return routeViewModel;
     }
 }
 

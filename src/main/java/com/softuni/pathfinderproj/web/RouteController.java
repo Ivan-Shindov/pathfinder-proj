@@ -4,6 +4,7 @@ import com.softuni.pathfinderproj.models.binding.RouteAddBindingModel;
 import com.softuni.pathfinderproj.models.entity.enums.CategoryEnum;
 import com.softuni.pathfinderproj.models.entity.enums.LevelEnum;
 import com.softuni.pathfinderproj.models.service.RouteServiceModel;
+import com.softuni.pathfinderproj.models.view.RouteViewModel;
 import com.softuni.pathfinderproj.services.RouteService;
 import com.softuni.pathfinderproj.services.UserService;
 import org.modelmapper.ModelMapper;
@@ -42,6 +43,9 @@ public class RouteController {
     @GetMapping("/routes/{id}")
     public String routeId(Model model, @PathVariable Long id) {
 
+        RouteViewModel routeViewModel = routeService.findRouteById(id);
+
+        model.addAttribute("viewModel",routeViewModel);
 
 
         return "route-details";

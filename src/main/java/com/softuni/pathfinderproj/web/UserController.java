@@ -126,6 +126,10 @@ public class UserController {
     public String profile(@PathVariable Long id,
                           Model model) {
 
+        if (!userService.isCurrentUserExist()) {
+            return "redirect:/users/login";
+        }
+
         UserViewModel viewModel = modelMapper.map(userService.findById(id), UserViewModel.class);
         model.addAttribute("user", viewModel);
 
