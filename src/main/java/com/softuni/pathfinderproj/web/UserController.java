@@ -44,37 +44,6 @@ public class UserController {
         return "login";
     }
 
-    @PostMapping("/users/login")
-    public String postLogin(@Valid UserLoginBindingModel userLoginBindingModel
-            , BindingResult bindingResult
-            , RedirectAttributes redirectAttributes) {
-
-        if (bindingResult.hasErrors()) {
-            redirectAttributes
-                    .addFlashAttribute("userLoginBindingModel", userLoginBindingModel)
-                    .addFlashAttribute("org.springframework.validation.BindingResult.userLoginBindingModel", bindingResult);
-
-            return "redirect:login";
-        }
-
-        UserServiceModel userServiceModel = this.userService
-                .findByUsernameAndPassword(userLoginBindingModel.getUsername(), userLoginBindingModel.getPassword());
-
-        if (userServiceModel == null) {
-            redirectAttributes
-                    .addFlashAttribute("isExist", false)
-                    .addFlashAttribute("userLoginBindingModel", userLoginBindingModel)
-                    .addFlashAttribute("org.springframework.validation.BindingResult.userLoginBindingModel", bindingResult);
-
-            return "redirect:login";
-        }
-
-        this.userService.loginUser(userServiceModel.getId()
-                , userServiceModel.getUsername());
-
-        return "redirect:/";
-    }
-
 
     @GetMapping("/users/register")
     public String register() {
@@ -99,13 +68,7 @@ public class UserController {
         }
 
 
-        if (userService.isUsernameExists(userRegisterBindingModel.getUsername())) {
-            redirectAttributes
-                    .addFlashAttribute("usernameExist", true)
-                    .addFlashAttribute("userRegisterBindingModel", userRegisterBindingModel);
-
-            return "redirect:/users/register";
-        }
+       // TODO existing username with custom validator
 
         userService
                 .registerAndLogin(modelMapper
@@ -114,21 +77,9 @@ public class UserController {
         return "redirect:/";
     }
 
-
-    @GetMapping("users/logout")
-    public String logout() {
-        userService.logout();
-        return "redirect:/";
-    }
-
-
     @GetMapping("users/profile/{id}")
     public String profile(@PathVariable Long id,
                           Model model) {
-
-        if (!userService.isCurrentUserExist()) {
-            return "redirect:/users/login";
-        }
 
         UserViewModel viewModel = modelMapper.map(userService.findById(id), UserViewModel.class);
         model.addAttribute("user", viewModel);

@@ -58,9 +58,9 @@ public class RouteController {
 
     @GetMapping("/routes/add")
     public String getAddRouteView(Model model) {
-        if (!userService.isCurrentUserExist()) {
-            return "redirect:/users/login";
-        }
+//        if (!userService.isCurrentUserExist()) {
+//            return "redirect:/users/login";
+//        }
 
         model.addAttribute("levels", LevelEnum.values());
         model.addAttribute("categories", CategoryEnum.values());

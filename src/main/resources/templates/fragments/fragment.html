@@ -22,7 +22,7 @@
 
 <nav th:fragment="navbar" class="main-nav">
     <ul>
-        <th:block th:if="${@currentUser.username == null}">
+        <th:block>
         <li>
             <a href="/">Home</a>
         </li>
@@ -37,12 +37,12 @@
         </li>
         </th:block>
 
-        <th:block th:unless="${@currentUser.username == null}">
+        <th:block>
         <li>
             <a href="/routes/add">Add new route</a>
         </li>
         <li>
-            <a th:href="@{/users/profile/{id}(id =${@currentUser.id})}">Profile</a>
+            <a href="/">Profile</a>
         </li>
         <li>
             <a href="/users/admin">Admin</a>

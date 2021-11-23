@@ -59,9 +59,10 @@ public class RouteServiceImpl implements RouteService {
     public RouteServiceModel addNewRoute(RouteServiceModel routeAddServiceModel) {
 
         RouteEntity routeEntity = modelMapper.map(routeAddServiceModel, RouteEntity.class);
-        UserEntity user = userService.findCurrentUser();
+//    TODO current user
+//        UserEntity user = userService.findCurrentUser();
 
-        routeEntity.setAuthor(user);
+//        routeEntity.setAuthor(user);
         routeEntity.setCategories(routeAddServiceModel
                 .getCategories()
                 .stream()
